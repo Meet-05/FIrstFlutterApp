@@ -1,6 +1,5 @@
-# first_app
+# Quiz App Using Flutter
 
-A new Flutter project.
 
 ## Getting Started
 
