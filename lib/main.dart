@@ -1,6 +1,6 @@
-import 'dart:convert';
-
 import "package:flutter/material.dart";
+import './quiz.dart';
+import './result.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,47 +9,83 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
-  int questionNumber = 0;
+class _MyAppState extends State<MyApp> {
+  int _questionNumber = 0;
+   int _totalScore=0;
+  var _questions = [
+    {
+      'questionText': 'what is your favorite Color',
+      'answers': [
+        {'text': 'Blue', 'score': 10},
+        {'text': 'Black', 'score': 5},
+        {'text': 'Red', 'score': 1},
+      ]
+    },
+    {
+      'questionText': 'your favorite Animal',
+      'answers': [
+        {'text': 'Horse', 'score': 10},
+        {'text': 'Donkey', 'score': 5},
+        {'text': 'MOnkey', 'score': 1},
+      ]
+    },
+    {
+      'questionText': 'your favorite programming language',
+      'answers': [
+        {'text': 'C', 'score': 10},
+        {'text': 'C++', 'score': 5},
+        {'text': 'Python', 'score': 1},
+        {'text': 'dart', 'score': 100},
+      ]
+    },
+    {
+      'questionText': 'your favorite phone',
+      'answers': [
+        {'text': 'Android', 'score': 10},
+        {'text': 'Apple', 'score': 5},
+        {'text': 'Pinapple', 'score': 0},
+      ]
+    },
+  ];
 
-  void answerQuestion() {
+  void _answerQuestion(int score) {
+    _totalScore+=score;
     setState(() {
-      questionNumber = questionNumber + 1;
+      _questionNumber = _questionNumber + 1;
     });
-    print(questionNumber);
+    if (_questionNumber < _questions.length) {
+      print('more questions');
+    } else {
+      print('no more questions');
+    }
+    print(_questionNumber);
   }
 
+
+  void _resetQuiz(){
+    setState(() {
+        _questionNumber = 0;
+         _totalScore=0;
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    var questions = ['whats your fav color', 'your fav food item'];
-
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('My First App'),
-        ),
-        body: Column(
-          children: [
-            Text(questions[questionNumber]),
-            RaisedButton(
-              child: Text('Answer 1'),
-              onPressed: answerQuestion,
-            ),
-            RaisedButton(
-              child: Text('answer 2'),
-              onPressed: () => {print("answer 2 selected")},
-            ),
-            RaisedButton(
-              child: Text('answer 3'),
-              onPressed: () => {print("answer 3 selected")},
-            ),
-          ],
-        ),
-      ),
+          appBar: AppBar(
+            title: Text('My First App'),
+          ),
+          body: _questionNumber < _questions.length
+              ? Quiz(
+                  answerQuestion: _answerQuestion,
+                  questions: _questions,
+                  questionNumber: _questionNumber,
+                )
+              : Result(_totalScore,_resetQuiz)),
     );
   }
 }
@@ -81,16 +117,16 @@ class MyAppState extends State<MyApp> {
 //     return MyAppState();
 //   }
 // }
-  // 2.Create another class which extends the State class 
-  // with base code and a method setState which consists of code that causes state change
+// 2.Create another class which extends the State class
+// with base code and a method setState which consists of code that causes state change
 
-  // class MyAppState extends State<MyApp> {
-  // int questionNumber = 0;
+// class MyAppState extends State<MyApp> {
+// int questionNumber = 0;
 
-  // void answerQuestion() {
-  //   setState(() {
-  //     questionNumber = questionNumber + 1;
-  //   });
-  //   print(questionNumber);
-  // }
+// void answerQuestion() {
+//   setState(() {
+//     questionNumber = questionNumber + 1;
+//   });
+//   print(questionNumber);
+// }
 //---------------------------------------------------------------------------------------------
